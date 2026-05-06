@@ -119,7 +119,7 @@
       font-size: 15px;
     }
 
-    input[type="number"] {
+    input[type="text"] {
       width: 100%;
       font-size: var(--font-size-input);
       padding: 12px var(--spacing-md);
@@ -131,19 +131,14 @@
       -moz-appearance: textfield;
     }
 
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
 
-    input[type="number"]:focus {
+    input[type="text"]:focus {
       outline: none;
       border-color: var(--color-border-focus);
       box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.15);
     }
 
-    input[type="number"].input-error {
+    input[type="text"].input-error {
       border-color: var(--color-error);
     }
 
@@ -338,7 +333,7 @@
       legend { font-size: 16px; margin-bottom: 6px; }
       .form-group { margin-bottom: 6px; }
       label { font-size: 14px; margin-bottom: 2px; }
-      input[type="number"] { font-size: 18px; padding: 8px 12px; }
+      input[type="text"] { font-size: 18px; padding: 8px 12px; }
       .error-msg { min-height: 0; }
       .hint { font-size: 12px; margin-top: 1px; }
       #calculate-btn { margin-top: 10px; padding: 10px; font-size: 18px; min-height: 44px; }
@@ -367,33 +362,30 @@
 
         <div class="form-group">
           <label for="current-bg">Đường huyết hiện tại (mmol/L)</label>
-          <input type="number" id="current-bg" step="0.1" min="0.1"
-                 required inputmode="decimal" autocomplete="off"
-                 placeholder="VD: 8.5">
+          <input type="text" id="current-bg" inputmode="decimal"
+                 required autocomplete="off" placeholder="VD: 8.5">
           <span class="error-msg" id="current-bg-error" role="alert"></span>
         </div>
 
         <div class="form-group">
           <label for="prev-bg">Đường huyết trước đó (mmol/L)</label>
-          <input type="number" id="prev-bg" step="0.1" min="0.1"
-                 required inputmode="decimal" autocomplete="off"
-                 placeholder="VD: 12.0">
+          <input type="text" id="prev-bg" inputmode="decimal"
+                 required autocomplete="off" placeholder="VD: 12.0">
           <span class="error-msg" id="prev-bg-error" role="alert"></span>
         </div>
 
         <div class="form-group">
           <label for="hours">Số giờ giữa 2 lần đo</label>
-          <input type="number" id="hours" step="0.25" min="0.25" max="24"
-                 value="1" inputmode="decimal">
+          <input type="text" id="hours" inputmode="decimal"
+                 value="1">
           <span class="hint">Mặc định: 1 giờ (0.25 – 24)</span>
           <span class="error-msg" id="hours-error" role="alert"></span>
         </div>
 
         <div class="form-group">
           <label for="current-rate">Tốc độ truyền insulin hiện tại (U/h)</label>
-          <input type="number" id="current-rate" step="0.5" min="0"
-                 required inputmode="decimal" autocomplete="off"
-                 placeholder="VD: 5.0">
+          <input type="text" id="current-rate" inputmode="decimal"
+                 required autocomplete="off" placeholder="VD: 5.0">
           <span class="error-msg" id="current-rate-error" role="alert"></span>
         </div>
       </fieldset>
@@ -669,12 +661,16 @@
        ZONE C: UI Rendering (DOM-dependent)
        ======================================== */
 
+    function normalizeDecimal(str) {
+      return str.trim().replace(',', '.');
+    }
+
     function readInputs() {
       return {
-        currentBG: document.getElementById('current-bg').value.trim(),
-        prevBG: document.getElementById('prev-bg').value.trim(),
-        hours: document.getElementById('hours').value.trim(),
-        currentRate: document.getElementById('current-rate').value.trim()
+        currentBG: normalizeDecimal(document.getElementById('current-bg').value),
+        prevBG: normalizeDecimal(document.getElementById('prev-bg').value),
+        hours: normalizeDecimal(document.getElementById('hours').value),
+        currentRate: normalizeDecimal(document.getElementById('current-rate').value)
       };
     }
 
