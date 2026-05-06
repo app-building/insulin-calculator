@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chỉnh liều Insulin TM – Yale Protocol - Version 1.0</title>
+  <style>
+    :root {
+      --color-primary: #1a5276;
+      --color-primary-hover: #2980b9;
+      --color-bg: #f0f4f8;
+      --color-surface: #ffffff;
+      --color-text: #2c3e50;
+      --color-text-muted: #7f8c8d;
+      --color-border: #d5dbe0;
+      --color-border-focus: #2980b9;
+      --color-error: #c0392b;
+      --color-green: #27ae60;
+      --color-green-bg: #eafaf1;
+      --color-green-border: #27ae60;
+      --color-yellow: #e67e22;
+      --color-yellow-bg: #fef5e7;
+      --color-yellow-border: #e67e22;
+      --color-red: #c0392b;
+      --color-red-bg: #fdedec;
+      --color-red-border: #c0392b;
+      --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --font-size-base: 16px;
+      --font-size-input: 20px;
+      --font-size-lg: 18px;
+      --font-size-xl: 22px;
+      --font-size-xxl: 28px;
+      --spacing-xs: 4px;
+      --spacing-sm: 8px;
+      --spacing-md: 16px;
+      --spacing-lg: 24px;
+      --spacing-xl: 32px;
+      --max-width: 560px;
+      --border-radius: 8px;
+      --shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-family);
+      font-size: var(--font-size-base);
+      background: var(--color-bg);
+      color: var(--color-text);
+      margin: 0;
+      padding: var(--spacing-md);
+      line-height: 1.5;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: var(--spacing-lg);
+    }
+
+    header h1 {
+      font-size: var(--font-size-xl);
+      color: var(--color-primary);
+      margin: 0 0 var(--spacing-xs);
+    }
+
+    .subtitle {
+      color: var(--color-text-muted);
+      font-size: var(--font-size-base);
+      margin: 0;
+    }
+
+    main {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .disclaimer {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: var(--border-radius);
+      padding: var(--spacing-sm) var(--spacing-md);
+      font-size: 14px;
+      color: #856404;
+      margin-bottom: var(--spacing-lg);
+      text-align: center;
+    }
+
+    form {
+      background: var(--color-surface);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    fieldset {
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    legend {
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-bottom: var(--spacing-md);
+      padding: 0;
+    }
+
+    .form-group {
+      margin-bottom: var(--spacing-md);
+    }
+
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: var(--spacing-xs);
+      font-size: 15px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      font-size: var(--font-size-input);
+      padding: 12px var(--spacing-md);
+      border: 2px solid var(--color-border);
+      border-radius: var(--border-radius);
+      background: var(--color-surface);
+      color: var(--color-text);
+      transition: border-color 0.2s;
+      -moz-appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: var(--color-border-focus);
+      box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.15);
+    }
+
+    input[type="number"].input-error {
+      border-color: var(--color-error);
+    }
+
+    .error-msg {
+      display: block;
+      color: var(--color-error);
+      font-size: 13px;
+      min-height: 20px;
+      margin-top: var(--spacing-xs);
+    }
+
+    .hint {
+      color: var(--color-text-muted);
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    #calculate-btn {
+      display: block;
+      width: 100%;
+      padding: var(--spacing-md) var(--spacing-lg);
+      font-size: var(--font-size-xl);
+      font-weight: 700;
+      background: var(--color-primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      margin-top: var(--spacing-lg);
+      min-height: 56px;
+      transition: background 0.2s;
+    }
+
+    #calculate-btn:hover { background: var(--color-primary-hover); }
+    #calculate-btn:active { transform: scale(0.98); }
+    #calculate-btn:focus-visible {
+      outline: 3px solid var(--color-border-focus);
+      outline-offset: 2px;
+    }
+
+    .result-container {
+      background: var(--color-surface);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-lg);
+      border-left: 6px solid var(--color-border);
+    }
+
+    .result-container[data-severity="green"] {
+      border-left-color: var(--color-green-border);
+      background: var(--color-green-bg);
+    }
+    .result-container[data-severity="yellow"] {
+      border-left-color: var(--color-yellow-border);
+      background: var(--color-yellow-bg);
+    }
+    .result-container[data-severity="red"] {
+      border-left-color: var(--color-red-border);
+      background: var(--color-red-bg);
+    }
+
+    .result-header {
+      font-size: var(--font-size-xl);
+      font-weight: 700;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .result-container[data-severity="green"] .result-header { color: var(--color-green); }
+    .result-container[data-severity="yellow"] .result-header { color: var(--color-yellow); }
+    .result-container[data-severity="red"] .result-header { color: var(--color-red); }
+
+    .result-detail {
+      font-size: 15px;
+      margin-bottom: var(--spacing-sm);
+      color: var(--color-text-muted);
+    }
+
+    .result-instruction {
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+      margin: var(--spacing-md) 0;
+      line-height: 1.6;
+    }
+
+    .result-new-rate {
+      font-size: var(--font-size-xxl);
+      font-weight: 700;
+      margin: var(--spacing-md) 0;
+      padding: var(--spacing-md);
+      background: rgba(255,255,255,0.6);
+      border-radius: var(--border-radius);
+      text-align: center;
+    }
+
+    .result-details {
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .result-details ul {
+      margin: var(--spacing-sm) 0;
+      padding-left: var(--spacing-lg);
+    }
+
+    .result-details li {
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .result-branch {
+      background: rgba(255,255,255,0.5);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      margin: var(--spacing-sm) 0;
+    }
+
+    .result-branch-title {
+      font-weight: 600;
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .consult-md {
+      background: var(--color-red-bg);
+      border: 2px solid var(--color-red);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      margin-top: var(--spacing-md);
+      font-weight: 600;
+      color: var(--color-red);
+      text-align: center;
+    }
+
+    details {
+      background: var(--color-surface);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    summary {
+      padding: var(--spacing-md) var(--spacing-lg);
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--color-primary);
+      font-size: 15px;
+    }
+
+    .delta-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .delta-table th,
+    .delta-table td {
+      border: 1px solid var(--color-border);
+      padding: var(--spacing-sm) var(--spacing-md);
+      text-align: center;
+    }
+
+    .delta-table th {
+      background: var(--color-primary);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .delta-table tr:nth-child(even) { background: #f8f9fa; }
+
+    .table-wrapper {
+      padding: 0 var(--spacing-lg) var(--spacing-lg);
+      overflow-x: auto;
+    }
+
+    footer {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      text-align: center;
+      padding: var(--spacing-lg) 0;
+      font-size: 13px;
+      color: var(--color-text-muted);
+      border-top: 1px solid var(--color-border);
+    }
+
+    footer p { margin: var(--spacing-xs) 0; }
+
+    @media (max-width: 767px) {
+      body { padding: 10px; }
+      header { margin-bottom: 10px; }
+      header h1 { font-size: 19px; }
+      .subtitle { font-size: 14px; }
+      form { padding: 14px; }
+      legend { font-size: 16px; margin-bottom: 6px; }
+      .form-group { margin-bottom: 6px; }
+      label { font-size: 14px; margin-bottom: 2px; }
+      input[type="number"] { font-size: 18px; padding: 8px 12px; }
+      .error-msg { min-height: 0; }
+      .hint { font-size: 12px; margin-top: 1px; }
+      #calculate-btn { margin-top: 10px; padding: 10px; font-size: 18px; min-height: 44px; }
+    }
+
+    @media (min-width: 768px) {
+      :root {
+        --font-size-base: 17px;
+        --font-size-input: 22px;
+        --max-width: 620px;
+      }
+      header h1 { font-size: var(--font-size-xxl); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Chỉnh liều Insulin Truyền Tĩnh Mạch - Version 1.0</h1>
+    <p class="subtitle">Yale Insulin Infusion Protocol</p>
+  </header>
+
+  <main>
+    <form id="calc-form" novalidate>
+      <fieldset>
+        <legend>Thông số bệnh nhân</legend>
+
+        <div class="form-group">
+          <label for="current-bg">Đường huyết hiện tại (mmol/L)</label>
+          <input type="number" id="current-bg" step="0.1" min="0.1"
+                 required inputmode="decimal" autocomplete="off"
+                 placeholder="VD: 8.5">
+          <span class="error-msg" id="current-bg-error" role="alert"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="prev-bg">Đường huyết trước đó (mmol/L)</label>
+          <input type="number" id="prev-bg" step="0.1" min="0.1"
+                 required inputmode="decimal" autocomplete="off"
+                 placeholder="VD: 12.0">
+          <span class="error-msg" id="prev-bg-error" role="alert"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="hours">Số giờ giữa 2 lần đo</label>
+          <input type="number" id="hours" step="0.25" min="0.25" max="24"
+                 value="1" inputmode="decimal">
+          <span class="hint">Mặc định: 1 giờ (0.25 – 24)</span>
+          <span class="error-msg" id="hours-error" role="alert"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="current-rate">Tốc độ truyền insulin hiện tại (U/h)</label>
+          <input type="number" id="current-rate" step="0.5" min="0"
+                 required inputmode="decimal" autocomplete="off"
+                 placeholder="VD: 5.0">
+          <span class="error-msg" id="current-rate-error" role="alert"></span>
+        </div>
+      </fieldset>
+
+      <button type="submit" id="calculate-btn">TÍNH</button>
+    </form>
+
+    <section id="result" class="result-container" hidden aria-live="polite">
+      <div id="result-header" class="result-header"></div>
+      <div id="result-detail" class="result-detail"></div>
+      <div id="result-instruction" class="result-instruction"></div>
+      <div id="result-new-rate" class="result-new-rate"></div>
+      <div id="result-details" class="result-details"></div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Dựa trên Yale Insulin Infusion Protocol (Goldberg et al., <cite>Diabetes Care</cite> 2004)</p>
+    <p>Đây là công cụ hỗ trợ tính toán, không thay thế phán đoán lâm sàng của bác sĩ.</p>
+  </footer>
+
+  <script>
+    /* ========================================
+       ZONE A: Pure Calculation Logic (no DOM)
+       ======================================== */
+
+    var EPSILON = 0.001;
+
+    function getColumn(currentBG) {
+      if (currentBG <= 5.5) return 1;
+      if (currentBG <= 7.7) return 2;
+      if (currentBG <= 11.0) return 3;
+      return 4;
+    }
+
+    function calculateRateOfChange(prevBG, currentBG, hours) {
+      return (prevBG - currentBG) / hours;
+    }
+
+    function getDeltaValues(currentRate) {
+      if (currentRate < 3)    return { delta: 0.5, twoDelta: 1,  consultMD: false };
+      if (currentRate < 6.5)  return { delta: 1,   twoDelta: 2,  consultMD: false };
+      if (currentRate < 10)   return { delta: 1.5, twoDelta: 3,  consultMD: false };
+      if (currentRate < 15)   return { delta: 2,   twoDelta: 4,  consultMD: false };
+      if (currentRate < 20)   return { delta: 3,   twoDelta: 6,  consultMD: false };
+      if (currentRate < 25)   return { delta: 4,   twoDelta: 8,  consultMD: false };
+      return { delta: 5, twoDelta: 10, consultMD: true };
+    }
+
+    function getRowAction(column, roc) {
+      switch (column) {
+        case 1:
+          if (roc < -EPSILON) return 'no_change';
+          if (roc <= 1.4)     return 'decrease_delta';
+          return 'stop_col1_special';
+
+        case 2:
+          if (roc < -1.4) return 'increase_delta';
+          if (roc <= 1.4) return 'no_change';
+          if (roc <= 2.8) return 'decrease_delta';
+          return 'hold_decrease_2delta';
+
+        case 3:
+          if (roc < -2.8)     return 'increase_2delta';
+          if (roc <= EPSILON)  return 'increase_delta';
+          if (roc <= 2.8)     return 'no_change';
+          if (roc <= 4.2)     return 'decrease_delta';
+          return 'hold_decrease_2delta';
+
+        case 4:
+          if (roc < -EPSILON) return 'increase_2delta';
+          if (roc <= 1.4)     return 'increase_delta';
+          if (roc <= 4.2)     return 'no_change';
+          if (roc <= 5.6)     return 'decrease_delta';
+          return 'hold_decrease_2delta';
+      }
+    }
+
+    function computeNewRate(currentRate, action, delta, twoDelta) {
+      switch (action) {
+        case 'increase_2delta':        return currentRate + twoDelta;
+        case 'increase_delta':         return currentRate + delta;
+        case 'no_change':              return currentRate;
+        case 'decrease_delta':         return Math.max(0, currentRate - delta);
+        case 'hold_decrease_2delta':   return Math.max(0, currentRate - twoDelta);
+        case 'stop_col1_special':      return 0;
+        default:                       return currentRate;
+      }
+    }
+
+    function getSimpleInstruction(action) {
+      switch (action) {
+        case 'increase_2delta':      return 'TĂNG tốc độ truyền insulin:';
+        case 'increase_delta':       return 'TĂNG tốc độ truyền insulin:';
+        case 'no_change':            return 'GIỮ NGUYÊN tốc độ truyền insulin:';
+        case 'decrease_delta':       return 'GIẢM tốc độ truyền insulin:';
+        case 'hold_decrease_2delta': return 'TẠM NGỪNG truyền insulin trong 30 phút, sau đó truyền với:';
+        case 'stop_col1_special':    return 'NGỪNG truyền insulin.';
+        default:                     return '';
+      }
+    }
+
+    function formatRateOfChange(roc) {
+      var absRoc = Math.abs(roc);
+      if (Math.abs(roc) < EPSILON) {
+        return 'Đường huyết không đổi';
+      }
+      var direction = roc < 0 ? 'tăng' : 'giảm';
+      return 'Đường huyết ' + direction + ' ' + absRoc.toFixed(1) + ' mmol/L/h';
+    }
+
+    function getColumnLabel(col) {
+      switch (col) {
+        case 1: return 'Cột 1 (4.2–5.5 mmol/L)';
+        case 2: return 'Cột 2 (5.6–7.7 mmol/L) – MỤC TIÊU';
+        case 3: return 'Cột 3 (7.8–11.0 mmol/L)';
+        case 4: return 'Cột 4 (≥ 11.1 mmol/L)';
+        default: return '';
+      }
+    }
+
+    function calculateDoseAdjustment(inputs) {
+      var currentBG = inputs.currentBG;
+      var prevBG = inputs.prevBG;
+      var hours = inputs.hours;
+      var currentRate = inputs.currentRate;
+
+      // --- Severe hypoglycemia ---
+      if (currentBG < 2.8) {
+        var restartRate = Math.round(currentRate * 0.5 * 10) / 10;
+        return {
+          isHypoglycemia: true,
+          severity: 'severe',
+          colorCode: 'red',
+          header: 'HẠ ĐƯỜNG HUYẾT NẶNG (BG < 2.8 mmol/L)',
+          instruction: 'NGỪNG TRUYỀN INSULIN NGAY',
+          newRate: 0,
+          restartRate: restartRate,
+          details: [
+            'Bolus 1 ống Glucose 50% (25g) tĩnh mạch.',
+            'Kiểm tra đường huyết mỗi 15 phút.',
+            'Khi BG ≥ 5.6 mmol/L → chờ 1 giờ → khởi động lại insulin ở ' +
+              restartRate.toFixed(1) + ' U/h (50% tốc độ trước đó).'
+          ],
+          consultMD: currentRate === 0
+        };
+      }
+
+      // --- Mild hypoglycemia ---
+      if (currentBG < 4.2) {
+        var restartRate75 = Math.round(currentRate * 0.75 * 10) / 10;
+        return {
+          isHypoglycemia: true,
+          severity: 'mild',
+          colorCode: 'red',
+          header: 'HẠ ĐƯỜNG HUYẾT (BG 2.8–4.1 mmol/L)',
+          instruction: 'NGỪNG TRUYỀN INSULIN',
+          newRate: 0,
+          restartRate: restartRate75,
+          symptomatic: {
+            title: 'Nếu CÓ triệu chứng (hoặc không đánh giá được):',
+            details: [
+              'Bolus 1 ống Glucose 50% (25g) tĩnh mạch.',
+              'Kiểm tra đường huyết mỗi 15 phút.'
+            ]
+          },
+          asymptomatic: {
+            title: 'Nếu KHÔNG có triệu chứng:',
+            details: [
+              'Bolus 1/2 ống Glucose 50% (12.5g) TM hoặc 240ml nước trái cây.',
+              'Kiểm tra đường huyết mỗi 15–30 phút.'
+            ]
+          },
+          restartInstruction: 'Khi BG ≥ 5.6 mmol/L → chờ 1 giờ → khởi động lại insulin ở ' +
+            restartRate75.toFixed(1) + ' U/h (75% tốc độ trước đó).',
+          details: [],
+          consultMD: currentRate === 0
+        };
+      }
+
+      // --- Normal adjustment (BG >= 4.2) ---
+      var column = getColumn(currentBG);
+      var roc = calculateRateOfChange(prevBG, currentBG, hours);
+      var action = getRowAction(column, roc);
+      var dv = getDeltaValues(currentRate);
+      var newRate = computeNewRate(currentRate, action, dv.delta, dv.twoDelta);
+      newRate = Math.round(newRate * 10) / 10;
+
+      var colorCode;
+      if (action === 'stop_col1_special' || action === 'hold_decrease_2delta' || dv.consultMD) {
+        colorCode = 'red';
+      } else if (column === 2) {
+        colorCode = 'green';
+      } else {
+        colorCode = 'yellow';
+      }
+
+      var details = [];
+      details.push(getColumnLabel(column));
+      details.push('Δ = ' + dv.delta.toFixed(1) + ' U/h, 2Δ = ' + dv.twoDelta.toFixed(1) + ' U/h');
+
+      if (action === 'stop_col1_special') {
+        var restartRateCol1 = Math.round(currentRate * 0.75 * 10) / 10;
+        details.push('NGỪNG truyền insulin.');
+        details.push('Kiểm tra đường huyết mỗi 30 phút.');
+        details.push('Khi BG ≥ 5.6 mmol/L → khởi động lại ở ' +
+          restartRateCol1.toFixed(1) + ' U/h (75% tốc độ gần nhất).');
+      }
+
+      if (action === 'hold_decrease_2delta') {
+        details.push('Tạm ngừng truyền insulin trong 30 phút.');
+        details.push('Sau đó giảm tốc độ truyền 2Δ = ' + dv.twoDelta.toFixed(1) + ' U/h.');
+      }
+
+      return {
+        isHypoglycemia: false,
+        colorCode: colorCode,
+        rateOfChangeText: formatRateOfChange(roc),
+        simpleInstruction: getSimpleInstruction(action),
+        action: action,
+        newRate: newRate,
+        currentRate: currentRate,
+        details: details,
+        consultMD: dv.consultMD
+      };
+    }
+
+    /* ========================================
+       ZONE B: Input Validation
+       ======================================== */
+
+    function validateInputs(raw) {
+      var errors = [];
+      var parsed = {};
+
+      var currentBG = parseFloat(raw.currentBG);
+      if (isNaN(currentBG) || currentBG <= 0) {
+        errors.push({ field: 'current-bg', message: 'Vui lòng nhập đường huyết hiện tại (số dương).' });
+      } else {
+        parsed.currentBG = currentBG;
+      }
+
+      var prevBG = parseFloat(raw.prevBG);
+      if (isNaN(prevBG) || prevBG <= 0) {
+        errors.push({ field: 'prev-bg', message: 'Vui lòng nhập đường huyết trước đó (số dương).' });
+      } else {
+        parsed.prevBG = prevBG;
+      }
+
+      var hours = parseFloat(raw.hours);
+      if (isNaN(hours) || hours < 0.25 || hours > 24) {
+        errors.push({ field: 'hours', message: 'Số giờ phải từ 0.25 đến 24.' });
+      } else {
+        parsed.hours = hours;
+      }
+
+      var currentRate = parseFloat(raw.currentRate);
+      if (isNaN(currentRate) || currentRate < 0) {
+        errors.push({ field: 'current-rate', message: 'Vui lòng nhập tốc độ truyền (số ≥ 0).' });
+      } else {
+        parsed.currentRate = currentRate;
+      }
+
+      return {
+        isValid: errors.length === 0,
+        errors: errors,
+        parsed: errors.length === 0 ? parsed : null
+      };
+    }
+
+    /* ========================================
+       ZONE C: UI Rendering (DOM-dependent)
+       ======================================== */
+
+    function readInputs() {
+      return {
+        currentBG: document.getElementById('current-bg').value.trim(),
+        prevBG: document.getElementById('prev-bg').value.trim(),
+        hours: document.getElementById('hours').value.trim(),
+        currentRate: document.getElementById('current-rate').value.trim()
+      };
+    }
+
+    function clearValidationErrors() {
+      var msgs = document.querySelectorAll('.error-msg');
+      for (var i = 0; i < msgs.length; i++) {
+        msgs[i].textContent = '';
+      }
+      var inputs = document.querySelectorAll('input.input-error');
+      for (var i = 0; i < inputs.length; i++) {
+        inputs[i].classList.remove('input-error');
+      }
+    }
+
+    function showValidationErrors(errors) {
+      for (var i = 0; i < errors.length; i++) {
+        var errEl = document.getElementById(errors[i].field + '-error');
+        var inputEl = document.getElementById(errors[i].field);
+        if (errEl) errEl.textContent = errors[i].message;
+        if (inputEl) inputEl.classList.add('input-error');
+      }
+      if (errors.length > 0) {
+        var firstField = document.getElementById(errors[0].field);
+        if (firstField) firstField.focus();
+      }
+    }
+
+    function escapeHtml(str) {
+      var div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    }
+
+    function renderResult(result) {
+      var container = document.getElementById('result');
+      var headerEl = document.getElementById('result-header');
+      var detailEl = document.getElementById('result-detail');
+      var instructionEl = document.getElementById('result-instruction');
+      var newRateEl = document.getElementById('result-new-rate');
+      var detailsEl = document.getElementById('result-details');
+
+      container.dataset.severity = result.colorCode;
+      headerEl.textContent = result.header;
+
+      // Rate of change info
+      if (result.rateOfChangeText) {
+        detailEl.textContent = result.rateOfChangeText;
+        detailEl.style.display = '';
+      } else {
+        detailEl.style.display = 'none';
+      }
+
+      if (result.isHypoglycemia) {
+        instructionEl.textContent = result.instruction;
+        newRateEl.innerHTML = 'Tốc độ mới: <strong>NGỪNG (0 U/h)</strong>';
+
+        if (result.severity === 'severe') {
+          var html = '<ul>';
+          for (var i = 0; i < result.details.length; i++) {
+            html += '<li>' + escapeHtml(result.details[i]) + '</li>';
+          }
+          html += '</ul>';
+          if (result.consultMD) {
+            html += '<div class="consult-md">Tốc độ truyền hiện tại = 0. Liên hệ bác sĩ để xác định tốc độ khởi động lại.</div>';
+          }
+          detailsEl.innerHTML = html;
+        } else {
+          // Mild hypo — show both branches
+          var html = '';
+          html += '<div class="result-branch">';
+          html += '<div class="result-branch-title">' + escapeHtml(result.symptomatic.title) + '</div>';
+          html += '<ul>';
+          for (var i = 0; i < result.symptomatic.details.length; i++) {
+            html += '<li>' + escapeHtml(result.symptomatic.details[i]) + '</li>';
+          }
+          html += '</ul></div>';
+
+          html += '<div class="result-branch">';
+          html += '<div class="result-branch-title">' + escapeHtml(result.asymptomatic.title) + '</div>';
+          html += '<ul>';
+          for (var i = 0; i < result.asymptomatic.details.length; i++) {
+            html += '<li>' + escapeHtml(result.asymptomatic.details[i]) + '</li>';
+          }
+          html += '</ul></div>';
+
+          html += '<p style="margin-top:12px;font-weight:600;">' + escapeHtml(result.restartInstruction) + '</p>';
+
+          if (result.consultMD) {
+            html += '<div class="consult-md">Tốc độ truyền hiện tại = 0. Liên hệ bác sĩ để xác định tốc độ khởi động lại.</div>';
+          }
+          detailsEl.innerHTML = html;
+        }
+      } else {
+        // Normal adjustment — simplified output for nurses
+        headerEl.textContent = result.rateOfChangeText;
+        detailEl.style.display = 'none';
+        instructionEl.textContent = result.simpleInstruction;
+
+        if (result.action === 'stop_col1_special') {
+          newRateEl.innerHTML = '';
+          var html = '<p>Kiểm tra đường huyết mỗi 30 phút.</p>';
+          var restartRateCol1 = Math.round(result.currentRate * 0.75 * 10) / 10;
+          html += '<p>Khi BG ≥ 5.6 mmol/L → khởi động lại ở <strong>' +
+            restartRateCol1.toFixed(1) + ' U/h</strong> (75% tốc độ gần nhất).</p>';
+          if (result.consultMD) {
+            html += '<div class="consult-md">Tốc độ ≥ 25 U/h: Liên hệ bác sĩ!</div>';
+          }
+          detailsEl.innerHTML = html;
+        } else {
+          if (result.action === 'no_change') {
+            newRateEl.innerHTML = 'Tốc độ truyền: <strong>' + result.newRate.toFixed(1) + ' U/h</strong>';
+          } else {
+            newRateEl.innerHTML = 'Tốc độ mới: <strong>' + result.newRate.toFixed(1) + ' U/h</strong>';
+          }
+          var html = '';
+          if (result.consultMD) {
+            html += '<div class="consult-md">Tốc độ ≥ 25 U/h: Liên hệ bác sĩ!</div>';
+          }
+          detailsEl.innerHTML = html;
+        }
+      }
+
+      container.hidden = false;
+      container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function handleCalculate(e) {
+      e.preventDefault();
+      clearValidationErrors();
+
+      var raw = readInputs();
+      var validation = validateInputs(raw);
+
+      if (!validation.isValid) {
+        showValidationErrors(validation.errors);
+        document.getElementById('result').hidden = true;
+        return;
+      }
+
+      var result = calculateDoseAdjustment(validation.parsed);
+      renderResult(result);
+    }
+
+    function init() {
+      document.getElementById('calc-form').addEventListener('submit', handleCalculate);
+
+      var inputs = document.querySelectorAll('#calc-form input');
+      for (var i = 0; i < inputs.length; i++) {
+        inputs[i].addEventListener('input', function() {
+          this.classList.remove('input-error');
+          var errEl = document.getElementById(this.id + '-error');
+          if (errEl) errEl.textContent = '';
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
