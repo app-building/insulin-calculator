@@ -325,18 +325,23 @@
     footer p { margin: var(--spacing-xs) 0; }
 
     @media (max-width: 767px) {
-      body { padding: 10px; }
-      header { margin-bottom: 10px; }
-      header h1 { font-size: 19px; }
-      .subtitle { font-size: 14px; }
-      form { padding: 14px; }
-      legend { font-size: 16px; margin-bottom: 6px; }
-      .form-group { margin-bottom: 6px; }
-      label { font-size: 14px; margin-bottom: 2px; }
-      input[type="text"] { font-size: 18px; padding: 8px 12px; }
-      .error-msg { min-height: 0; }
-      .hint { font-size: 12px; margin-top: 1px; }
-      #calculate-btn { margin-top: 10px; padding: 10px; font-size: 18px; min-height: 44px; }
+      body { padding: 8px; }
+      header { margin-bottom: 6px; }
+      header h1 { font-size: 18px; }
+      .subtitle { font-size: 13px; }
+      form { padding: 12px; margin-bottom: 10px; }
+      legend { font-size: 15px; margin-bottom: 4px; }
+      .form-group { margin-bottom: 4px; }
+      label { font-size: 13px; margin-bottom: 1px; }
+      input[type="text"] { font-size: 16px; padding: 7px 10px; }
+      .error-msg { min-height: 0; margin-top: 1px; }
+      .hint { font-size: 11px; margin-top: 0; }
+      #calculate-btn { margin-top: 8px; padding: 8px; font-size: 17px; min-height: 42px; }
+      .hypo-btn { padding: 10px; margin-bottom: 10px; }
+      .hypo-btn-title { font-size: 15px; margin-bottom: 2px; }
+      .hypo-btn-levels { font-size: 12px; }
+      footer { padding: 8px 0; font-size: 11px; }
+      footer p { margin: 2px 0; }
     }
 
     @media (min-width: 768px) {
@@ -347,6 +352,130 @@
       }
       header h1 { font-size: var(--font-size-xxl); }
     }
+
+    /* Nút xử trí hạ đường huyết */
+    .hypo-btn {
+      display: block;
+      width: 100%;
+      background: var(--color-red-bg);
+      border: 2px solid var(--color-red);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      cursor: pointer;
+      margin-bottom: var(--spacing-lg);
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .hypo-btn:hover { background: #f9d6d5; }
+    .hypo-btn:active { transform: scale(0.98); }
+    .hypo-btn-title {
+      font-size: var(--font-size-lg);
+      font-weight: 700;
+      color: var(--color-red);
+      margin-bottom: var(--spacing-xs);
+    }
+    .hypo-btn-levels {
+      font-size: 14px;
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+    .hypo-btn-levels span {
+      display: inline-block;
+      margin: 0 var(--spacing-xs);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: var(--spacing-md);
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      background: #fff;
+      max-width: 580px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      border-radius: 12px;
+      padding: var(--spacing-lg);
+      position: relative;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px; right: 16px;
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px 8px;
+    }
+    .modal-close:hover { color: var(--color-text); }
+    .modal-title {
+      font-size: var(--font-size-xl);
+      font-weight: 700;
+      color: var(--color-red);
+      margin: 0 0 var(--spacing-lg);
+      padding-right: 40px;
+    }
+    .hypo-level {
+      border-left: 4px solid var(--color-red);
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+      background: var(--color-red-bg);
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    }
+    .hypo-level h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-red);
+      margin: 0 0 var(--spacing-sm);
+    }
+    .hypo-level ol {
+      margin: 0;
+      padding-left: var(--spacing-lg);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    .hypo-level ol li { margin-bottom: var(--spacing-xs); }
+    .hypo-level .hypo-branch {
+      background: rgba(255,255,255,0.6);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-sm) var(--spacing-md);
+      margin: var(--spacing-sm) 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .hypo-level .hypo-branch strong { display: block; margin-bottom: 2px; }
+    .hypo-symptoms {
+      background: var(--color-yellow-bg);
+      border: 1px solid var(--color-yellow-border);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .hypo-symptoms strong {
+      display: block;
+      color: var(--color-yellow);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    @media (max-width: 767px) {
+      .modal-content { padding: 14px; max-height: 90vh; }
+      .modal-title { font-size: 18px; }
+      .hypo-level { padding: 10px; }
+      .hypo-level h3 { font-size: 15px; }
+      .hypo-level ol { font-size: 14px; }
+    }
   </style>
 </head>
 <body>
@@ -356,6 +485,11 @@
   </header>
 
   <main>
+    <button type="button" class="hypo-btn" id="hypo-btn">
+      <div class="hypo-btn-title">Xử trí hạ đường huyết</div>
+      <div class="hypo-btn-levels">Khi đường máu ≤ 4.1 mmol/L</div>
+    </button>
+
     <form id="calc-form" novalidate>
       <fieldset>
         <legend>Thông số bệnh nhân</legend>
@@ -392,6 +526,47 @@
 
       <button type="submit" id="calculate-btn">TÍNH</button>
     </form>
+
+    <div class="modal-overlay" id="hypo-modal" role="dialog" aria-modal="true" aria-label="Hướng dẫn xử trí hạ đường huyết">
+      <div class="modal-content">
+        <button class="modal-close" id="hypo-close" aria-label="Đóng">&times;</button>
+        <div class="modal-title">Hướng dẫn xử trí hạ đường huyết</div>
+
+        <div class="hypo-level">
+          <h3>Mức 1: Đường huyết &lt; 2.8 mmol/L</h3>
+          <ol>
+            <li><strong>NGỪNG truyền insulin ngay</strong></li>
+            <li>Tiêm tĩnh mạch chậm: 1 ống Glucose 50% (tương đương 25g glucose)</li>
+            <li>Kiểm tra đường huyết mỗi <strong>15 phút</strong></li>
+            <li>Khi đường huyết ≥ 5.6 mmol/L → <strong>CHỜ 1 GIỜ</strong> → bắt đầu truyền lại insulin ở <strong>50% tốc độ trước đó</strong></li>
+          </ol>
+        </div>
+
+        <div class="hypo-level">
+          <h3>Mức 2: Đường huyết 2.8 – 4.1 mmol/L</h3>
+          <ol>
+            <li><strong>NGỪNG truyền insulin</strong></li>
+            <li>
+              Xử trí theo triệu chứng:
+              <div class="hypo-branch">
+                <strong>Có triệu chứng (hoặc không đánh giá được):</strong>
+                Tiêm tĩnh mạch chậm 1 ống Glucose 50% (25g glucose) → kiểm tra đường huyết mỗi 15 phút
+              </div>
+              <div class="hypo-branch">
+                <strong>Không có triệu chứng:</strong>
+                Tiêm tĩnh mạch chậm 1/2 ống Glucose 50% (12.5g glucose) HOẶC cho uống 240ml nước trái cây → kiểm tra đường huyết mỗi 15–30 phút
+              </div>
+            </li>
+            <li>Khi đường huyết ≥ 5.6 mmol/L → <strong>CHỜ 1 GIỜ</strong> → bắt đầu truyền lại insulin ở <strong>75% tốc độ trước đó</strong></li>
+          </ol>
+        </div>
+
+        <div class="hypo-symptoms">
+          <strong>Triệu chứng hạ đường huyết cần nhận biết:</strong>
+          Vã mồ hôi, run tay chân · Hồi hộp, đánh trống ngực · Đói cồn cào, buồn nôn · Tê hoặc ngứa ở môi, lưỡi · Nhìn mờ, chóng mặt, nhức đầu · Lú lẫn, kích thích, co giật, hôn mê (nặng)
+        </div>
+      </div>
+    </div>
 
     <section id="result" class="result-container" hidden aria-live="polite">
       <div id="result-header" class="result-header"></div>
@@ -825,6 +1000,24 @@
           if (errEl) errEl.textContent = '';
         });
       }
+
+      // Modal xử trí hạ đường huyết
+      var hypoBtn = document.getElementById('hypo-btn');
+      var hypoModal = document.getElementById('hypo-modal');
+      var hypoClose = document.getElementById('hypo-close');
+
+      hypoBtn.addEventListener('click', function() {
+        hypoModal.classList.add('active');
+      });
+      hypoClose.addEventListener('click', function() {
+        hypoModal.classList.remove('active');
+      });
+      hypoModal.addEventListener('click', function(e) {
+        if (e.target === hypoModal) hypoModal.classList.remove('active');
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') hypoModal.classList.remove('active');
+      });
     }
 
     document.addEventListener('DOMContentLoaded', init);
