@@ -455,6 +455,17 @@
       line-height: 1.6;
     }
     .hypo-level .hypo-branch strong { display: block; margin-bottom: 2px; }
+    .hypo-alt {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 6px;
+      padding: 6px 10px;
+      margin-top: 6px;
+      font-style: italic;
+      font-size: 13px;
+      color: #856404;
+    }
+
     .hypo-symptoms {
       background: var(--color-yellow-bg);
       border: 1px solid var(--color-yellow-border);
@@ -536,7 +547,9 @@
           <h3>Mức 1: Đường huyết &lt; 2.8 mmol/L</h3>
           <ol>
             <li><strong>NGỪNG truyền insulin ngay</strong></li>
-            <li>Tiêm tĩnh mạch chậm: 1 ống Glucose 50% (tương đương 25g glucose)</li>
+            <li>Tiêm tĩnh mạch chậm: 1 ống Glucose 50% 50ml (tương đương 25g glucose)
+              <div class="hypo-alt">Nếu không có Glucose 50%: truyền 125ml Glucose 20% hoặc 250ml Glucose 10%</div>
+            </li>
             <li>Kiểm tra đường huyết mỗi <strong>15 phút</strong></li>
             <li>Khi đường huyết ≥ 5.6 mmol/L → <strong>CHỜ 1 GIỜ</strong> → bắt đầu truyền lại insulin ở <strong>50% tốc độ trước đó</strong></li>
           </ol>
@@ -550,11 +563,13 @@
               Xử trí theo triệu chứng:
               <div class="hypo-branch">
                 <strong>Có triệu chứng (hoặc không đánh giá được):</strong>
-                Tiêm tĩnh mạch chậm 1 ống Glucose 50% (25g glucose) → kiểm tra đường huyết mỗi 15 phút
+                Tiêm tĩnh mạch chậm 1 ống Glucose 50% 50ml (25g glucose) → kiểm tra đường huyết mỗi 15 phút
+                <div class="hypo-alt">Nếu không có Glucose 50%: truyền 125ml Glucose 20% hoặc 250ml Glucose 10%</div>
               </div>
               <div class="hypo-branch">
                 <strong>Không có triệu chứng:</strong>
-                Tiêm tĩnh mạch chậm 1/2 ống Glucose 50% (12.5g glucose) HOẶC cho uống 240ml nước trái cây → kiểm tra đường huyết mỗi 15–30 phút
+                Tiêm tĩnh mạch chậm 1/2 ống Glucose 50% 25ml (12.5g glucose) HOẶC cho uống 240ml nước trái cây → kiểm tra đường huyết mỗi 15–30 phút
+                <div class="hypo-alt">Nếu không có Glucose 50%: truyền ~65ml Glucose 20% hoặc 125ml Glucose 10%</div>
               </div>
             </li>
             <li>Khi đường huyết ≥ 5.6 mmol/L → <strong>CHỜ 1 GIỜ</strong> → bắt đầu truyền lại insulin ở <strong>75% tốc độ trước đó</strong></li>
